@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -12,8 +12,19 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons"
 import ExpenseListPanel from "./components/ExpenseListPanel";
 import FloatingActionButton from "./components/FloatingActionButton";
+import { useSQLiteContext } from 'expo-sqlite';
 
 export default function ExpenseListScreen() {
+
+    const db = useSQLiteContext();
+
+    useEffect(() => {
+        console.log('Database is ready and available');
+        // You could even run a simple query to verify tables exist
+        db.getAllAsync('SELECT name FROM sqlite_master WHERE type="table"')
+          .then(result => console.log('Tables verified:', result));
+    }, [db]);
+
     const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState("Daily");
     const [expenses, setExpenses] = useState([
@@ -38,7 +49,7 @@ export default function ExpenseListScreen() {
 
     const addExpense = (expense: Expense) => {
         var updatedExpenses = [...expenses];
-        updatedExpenses.push({id: expense.id, name: expense.title, amount: expense.amount});
+        updatedExpenses.push({ id: expense.id, name: expense.title, amount: expense.amount });
         setExpenses(updatedExpenses);
     }
 
@@ -66,10 +77,10 @@ export default function ExpenseListScreen() {
                 ))}
             </View>
 
-            <ExpenseListPanel activeTab={activeTab} expenses={expenses} removeEntry={removeEntry}/>
+            <ExpenseListPanel activeTab={activeTab} expenses={expenses} removeEntry={removeEntry} />
 
             {/* Floating Button */}
-            <FloatingActionButton addExpense={addExpense}/>
+            <FloatingActionButton addExpense={addExpense} />
         </SafeAreaView>
     );
 }

@@ -9,27 +9,27 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		5D84CD9410BDC7607B0D46A8 /* libPods-Plants.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A542F45888B166B5514A59F7 /* libPods-Plants.a */; };
-		66944A1E8ABB606AC6518928 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 175073B033FDF43845EEEF5A /* PrivacyInfo.xcprivacy */; };
-		B74CB5560F8D67AD062FC869 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C30609E96AA500825A0E8AB /* ExpoModulesProvider.swift */; };
+		812B7E84BFB648A1AA78B333 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081D10D86F7439615F606649 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		D23FCD4146E3FF9DC3073114 /* libPods-Plants.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5104402AFD5ECFEEFD3CCB5F /* libPods-Plants.a */; };
+		ECDE8A4A82D8DB00531A107C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 634231F042EB17BB3AC7D528 /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		081D10D86F7439615F606649 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Plants/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Plants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Plants.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Plants/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plants/Info.plist; sourceTree = "<group>"; };
-		175073B033FDF43845EEEF5A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Plants/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		2C30609E96AA500825A0E8AB /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Plants/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		853AA27721BE3A951D8E00EA /* Pods-Plants.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plants.debug.xcconfig"; path = "Target Support Files/Pods-Plants/Pods-Plants.debug.xcconfig"; sourceTree = "<group>"; };
-		A542F45888B166B5514A59F7 /* libPods-Plants.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Plants.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5104402AFD5ECFEEFD3CCB5F /* libPods-Plants.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Plants.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		634231F042EB17BB3AC7D528 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Plants/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		6DD6935E9931EED47E24BA03 /* Pods-Plants.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plants.debug.xcconfig"; path = "Target Support Files/Pods-Plants/Pods-Plants.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Plants/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AF88CEEB5658ECE7673525D1 /* Pods-Plants.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plants.release.xcconfig"; path = "Target Support Files/Pods-Plants/Pods-Plants.release.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Plants/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* Plants-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Plants-Bridging-Header.h"; path = "Plants/Plants-Bridging-Header.h"; sourceTree = "<group>"; };
+		F1380E2974BFCFC6E910051B /* Pods-Plants.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Plants.release.xcconfig"; path = "Target Support Files/Pods-Plants/Pods-Plants.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,13 +37,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D84CD9410BDC7607B0D46A8 /* libPods-Plants.a in Frameworks */,
+				D23FCD4146E3FF9DC3073114 /* libPods-Plants.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06E0AD24BE00A6DD2A95977E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6DD6935E9931EED47E24BA03 /* Pods-Plants.debug.xcconfig */,
+				F1380E2974BFCFC6E910051B /* Pods-Plants.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Plants */ = {
 			isa = PBXGroup;
 			children = (
@@ -53,24 +63,24 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				175073B033FDF43845EEEF5A /* PrivacyInfo.xcprivacy */,
+				634231F042EB17BB3AC7D528 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Plants;
 			sourceTree = "<group>";
 		};
-		198A68837B506D704ECFC63A /* ExpoModulesProviders */ = {
+		1A6BA7DE76982BA4085C8590 /* Plants */ = {
 			isa = PBXGroup;
 			children = (
-				CBCDE974839E5E31F6964A8D /* Plants */,
+				081D10D86F7439615F606649 /* ExpoModulesProvider.swift */,
 			);
-			name = ExpoModulesProviders;
+			name = Plants;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				A542F45888B166B5514A59F7 /* libPods-Plants.a */,
+				5104402AFD5ECFEEFD3CCB5F /* libPods-Plants.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -89,8 +99,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				A080D33E3A780EE19EA31384 /* Pods */,
-				198A68837B506D704ECFC63A /* ExpoModulesProviders */,
+				06E0AD24BE00A6DD2A95977E /* Pods */,
+				E01BD513084EA5B19C645EA7 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,15 +115,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A080D33E3A780EE19EA31384 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				853AA27721BE3A951D8E00EA /* Pods-Plants.debug.xcconfig */,
-				AF88CEEB5658ECE7673525D1 /* Pods-Plants.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,12 +124,12 @@
 			path = Plants/Supporting;
 			sourceTree = "<group>";
 		};
-		CBCDE974839E5E31F6964A8D /* Plants */ = {
+		E01BD513084EA5B19C645EA7 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				2C30609E96AA500825A0E8AB /* ExpoModulesProvider.swift */,
+				1A6BA7DE76982BA4085C8590 /* Plants */,
 			);
-			name = Plants;
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Plants" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				67F4C06236A0CD05759D5F69 /* [Expo] Configure project */,
+				5A02AD18A60B87EDB226A584 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				DE0B228056912D764DCA6F2B /* [CP] Embed Pods Frameworks */,
+				23512ACCF7A661AEA456AE59 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -195,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				66944A1E8ABB606AC6518928 /* PrivacyInfo.xcprivacy in Resources */,
+				ECDE8A4A82D8DB00531A107C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +240,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		67F4C06236A0CD05759D5F69 /* [Expo] Configure project */ = {
+		23512ACCF7A661AEA456AE59 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Plants/Pods-Plants-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Plants/Pods-Plants-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5A02AD18A60B87EDB226A584 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -294,24 +313,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Plants/Pods-Plants-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DE0B228056912D764DCA6F2B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Plants/Pods-Plants-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Plants/Pods-Plants-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -320,7 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				B74CB5560F8D67AD062FC869 /* ExpoModulesProvider.swift in Sources */,
+				812B7E84BFB648A1AA78B333 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,13 +330,12 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 853AA27721BE3A951D8E00EA /* Pods-Plants.debug.xcconfig */;
+			baseConfigurationReference = 6DD6935E9931EED47E24BA03 /* Pods-Plants.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Plants/Plants.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CNH36U3XTG;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -348,7 +348,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -357,28 +356,22 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.noushadbm.plants;
 				PRODUCT_NAME = Plants;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Plants/Plants-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF88CEEB5658ECE7673525D1 /* Pods-Plants.release.xcconfig */;
+			baseConfigurationReference = F1380E2974BFCFC6E910051B /* Pods-Plants.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Plants/Plants.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CNH36U3XTG;
 				INFOPLIST_FILE = Plants/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -386,7 +379,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -395,14 +387,9 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.noushadbm.plants;
 				PRODUCT_NAME = Plants;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Plants/Plants-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
