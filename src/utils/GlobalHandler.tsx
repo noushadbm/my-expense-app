@@ -1,8 +1,11 @@
 type GlobalHandlerType = {
     addExpense?: (Expense: {
-      id: string;
+      id?: string;
       title: string;
       amount: number;
+      category: string;
+      description?: string;
+      date?: Date;
     }) => void;
   };
   

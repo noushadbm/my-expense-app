@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import GlobalHandler from "../utils/GlobalHandler";
+import { Expense } from "../context/ExpensesContext";
 
 export default function AddExpenseScreen() {
 
@@ -73,7 +74,7 @@ export default function AddExpenseScreen() {
                 />
 
                 <TouchableOpacity style={styles.addBtn} onPress={() => {
-                    var newExpense = {id: Math.random().toString(), title: "New Expense", amount: 10.0};
+                    const newExpense : Expense = {id: "", title: item, amount: Number(amount) || 0, category: "Other", description: "Added via GlobalHandler", date: new Date()};
                     const addExpense = GlobalHandler.addExpense;
                     if (addExpense) {
                         addExpense(newExpense);

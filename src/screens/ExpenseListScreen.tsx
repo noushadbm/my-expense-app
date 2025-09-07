@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons"
 import ExpenseListPanel from "./components/ExpenseListPanel";
 import FloatingActionButton from "./components/FloatingActionButton";
 import { useSQLiteContext } from 'expo-sqlite';
+import { createEntry } from "../db/init";
 
 export default function ExpenseListScreen() {
 
@@ -21,17 +22,17 @@ export default function ExpenseListScreen() {
     useEffect(() => {
         console.log('Database is ready and available');
         // You could even run a simple query to verify tables exist
-        db.getAllAsync('SELECT name FROM sqlite_master WHERE type="table"')
+        db.getAllAsync('SELECT * FROM expenses')
           .then(result => console.log('Tables verified:', result));
     }, [db]);
 
     const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState("Daily");
     const [expenses, setExpenses] = useState([
-        { id: "1", name: "Viva Supermarket", amount: 28.0 },
-        { id: "2", name: "Lulu Express", amount: 28.0 },
-        { id: "3", name: "Nits House", amount: 90.0 },
-        { id: "4", name: "Shawarma", amount: 7.0 },
+        { id: "100", name: "Viva Supermarket", amount: 28.0 },
+        { id: "102", name: "Lulu Express", amount: 28.0 },
+        { id: "103", name: "Nits House", amount: 90.0 },
+        { id: "104", name: "Shawarma", amount: 7.0 },
     ]);
 
     //const total = expenses.reduce((sum, e) => sum + e.amount, 0);
@@ -48,9 +49,13 @@ export default function ExpenseListScreen() {
     }
 
     const addExpense = (expense: Expense) => {
-        var updatedExpenses = [...expenses];
-        updatedExpenses.push({ id: expense.id, name: expense.title, amount: expense.amount });
-        setExpenses(updatedExpenses);
+        createEntry(expense).then((newExpense: any) => {
+            console.log("New expense added:", newExpense);
+            var updatedExpenses = [...expenses];
+            updatedExpenses.push({ id: newExpense.id, name: newExpense.title, amount: newExpense.amount });
+            //console.log("Expense saved to DB:",updatedExpenses);
+            setExpenses(updatedExpenses);
+        }); // Save to DB
     }
 
     return (

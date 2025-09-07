@@ -9,6 +9,8 @@ export type Expense = {
   id: string;
   title: string;
   amount: number;
+  category: string;
+  description: string;
   date: Date;
 };
 
@@ -34,10 +36,12 @@ export const ExpensesProvider = ({ children }: ProviderProps) => {
   
     const addExpense = (title: string, amount: number, date: Date) => {
       const newExpense: Expense = {
-        id: uuidv4(), // ✅ Safe unique ID
+        id: uuidv4(),
         title,
         amount,
         date,
+        category: "",
+        description: ""
       };
       setExpenses((current) => [newExpense, ...current]);
     };
