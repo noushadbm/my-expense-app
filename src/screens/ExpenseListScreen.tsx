@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons"
 import ExpenseListPanel from "./components/ExpenseListPanel";
 import FloatingActionButton from "./components/FloatingActionButton";
 import { useSQLiteContext } from 'expo-sqlite';
-import { createEntry } from "../db/init";
+import { createEntry, getAllEntries } from "../db/init";
 
 export default function ExpenseListScreen() {
 
@@ -22,17 +22,25 @@ export default function ExpenseListScreen() {
     useEffect(() => {
         console.log('Database is ready and available');
         // You could even run a simple query to verify tables exist
-        db.getAllAsync('SELECT * FROM expenses')
-          .then(result => console.log('Tables verified:', result));
+        // db.getAllAsync('SELECT * FROM expenses')
+        //   .then(result => console.log('Tables verified:', result));
+        // Load initial expenses from DB
+        getAllEntries().then((entries) => {
+            console.log("Loaded entries from DB:", entries);
+            // Map entries to match the state structure
+            const formattedEntries = entries.map(entry => ({
+                id: entry.id?.toString() || '',
+                name: entry.title,
+                amount: entry.amount
+            }));
+            setExpenses(formattedEntries);
+        });
     }, [db]);
 
     const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState("Daily");
     const [expenses, setExpenses] = useState([
         { id: "100", name: "Viva Supermarket", amount: 28.0 },
-        { id: "102", name: "Lulu Express", amount: 28.0 },
-        { id: "103", name: "Nits House", amount: 90.0 },
-        { id: "104", name: "Shawarma", amount: 7.0 },
     ]);
 
     //const total = expenses.reduce((sum, e) => sum + e.amount, 0);

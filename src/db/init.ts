@@ -24,6 +24,19 @@ export const initCreateTables = async (db: SQLiteDatabase) => {
   );
 };
 
+export const getAllEntries = async (): Promise<Expense[]> => {
+  const db = await openDatabaseAsync("dbTesting.db");
+  const entries = await db.getAllAsync("SELECT * FROM expenses ORDER BY entryDate DESC");
+  return entries.map((entry: any) => ({
+    id: entry.id,
+    title: entry.title,
+    amount: entry.amount,
+    category: entry.category,
+    description: entry.description,
+    date: new Date(entry.entryDate),
+  })) as Expense[];
+};
+
 export const createEntry = async (body: Expense) => {
   const db = await openDatabaseAsync("dbTesting.db");
   const statement = await db.prepareAsync(
