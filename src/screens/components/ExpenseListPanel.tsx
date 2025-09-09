@@ -9,10 +9,16 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"
 
-export default function ExpenseListPanel({activeTab, expenses, removeEntry}: {activeTab: string, expenses: { id: string; name: string; amount: number }[], removeEntry?: (id: string) => void}) {
+export default function ExpenseListPanel({activeTab, expenses, removeEntry, selectedDate, onDateChange}: {activeTab: string, expenses: { id: string; name: string; amount: number }[], removeEntry?: (id: string) => void, selectedDate : Date, onDateChange?: (newDate: Date) => void}) {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
     const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const formattedDate = new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }).format(selectedDate);
+    const dayName = selectedDate.toLocaleDateString("en-US", { weekday: "long" });
 
     const handleLongPress = (item: { id: string; name: string; amount: number }) => {
         setSelectedItemId(item.id); // Set the selected item ID
@@ -34,24 +40,40 @@ export default function ExpenseListPanel({activeTab, expenses, removeEntry}: {ac
         setSelectedItemId(null);
     };
 
+    const gotoPrevDay = () => {
+        console.log("Previous day clicked!");
+        // your logic here
+        const prevDate = new Date(selectedDate);
+        prevDate.setDate(selectedDate.getDate() - 1);
+        onDateChange && onDateChange(prevDate);
+    }
+
+    const gotoNextDay = () => {
+        console.log("Next day clicked!");
+        // your logic here
+        const nextDate = new Date(selectedDate);
+        nextDate.setDate(selectedDate.getDate() + 1);
+        onDateChange && onDateChange(nextDate);
+    }
+
     return (
         <>
 
             {/* Date + Total */}
             <View style={styles.dateCard}>
                 <TouchableOpacity>
-                    <Ionicons name="chevron-back" size={22} color="white" />
+                    <Ionicons name="chevron-back" size={22} color="white" onPress={gotoPrevDay}/>
                 </TouchableOpacity>
 
                 <View>
-                    <Text style={styles.dateText}>11 August, 2024</Text>
-                    <Text style={styles.dayText}>Sunday</Text>
+                    <Text style={styles.dateText}>{formattedDate}</Text>
+                    <Text style={styles.dayText}>{dayName}</Text>
                 </View>
 
                 <Text style={styles.totalText}>{total.toFixed(2)}</Text>
 
                 <TouchableOpacity>
-                    <Ionicons name="chevron-forward" size={22} color="white" />
+                    <Ionicons name="chevron-forward" size={22} color="white" onPress={gotoNextDay}/>
                 </TouchableOpacity>
             </View>
 

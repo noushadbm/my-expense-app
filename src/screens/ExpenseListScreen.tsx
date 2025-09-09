@@ -37,11 +37,12 @@ export default function ExpenseListScreen() {
         });
     }, [db]);
 
-    const navigation = useNavigation();
+    //const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState("Daily");
     const [expenses, setExpenses] = useState([
         { id: "100", name: "Viva Supermarket", amount: 28.0 },
     ]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     //const total = expenses.reduce((sum, e) => sum + e.amount, 0);
 
@@ -64,6 +65,12 @@ export default function ExpenseListScreen() {
             //console.log("Expense saved to DB:",updatedExpenses);
             setExpenses(updatedExpenses);
         }); // Save to DB
+    }
+
+    const onDateChange = (newDate: Date) => {
+        console.log("Date changed to:", newDate);
+        setSelectedDate(newDate);
+        // Fetch and update expenses for the new date from DB if needed
     }
 
     return (
@@ -90,7 +97,8 @@ export default function ExpenseListScreen() {
                 ))}
             </View>
 
-            <ExpenseListPanel activeTab={activeTab} expenses={expenses} removeEntry={removeEntry} />
+            <ExpenseListPanel activeTab={activeTab} expenses={expenses} removeEntry={removeEntry}
+            selectedDate={selectedDate} onDateChange={onDateChange} />
 
             {/* Floating Button */}
             <FloatingActionButton addExpense={addExpense} />
