@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons"
 import ExpenseListPanel from "./components/ExpenseListPanel";
 import FloatingActionButton from "./components/FloatingActionButton";
 import { useSQLiteContext } from 'expo-sqlite';
-import { createEntry, getAllEntries } from "../db/init";
+import { createEntry, deleteEntry, getAllEntries } from "../db/init";
 
 export default function ExpenseListScreen() {
 
@@ -25,7 +25,8 @@ export default function ExpenseListScreen() {
         // db.getAllAsync('SELECT * FROM expenses')
         //   .then(result => console.log('Tables verified:', result));
         // Load initial expenses from DB
-        getAllEntries().then((entries) => {
+        console.log("activeTab:", activeTab, ", selectedDate:", selectedDate);
+        getAllEntries(selectedDate, activeTab).then((entries) => {
             console.log("Loaded entries from DB:", entries);
             // Map entries to match the state structure
             const formattedEntries = entries.map(entry => ({
@@ -53,12 +54,14 @@ export default function ExpenseListScreen() {
     }
 
     const removeEntry = (id: string) => {
-        var updatedExpenses = expenses.filter(expense => expense.id !== id);
-        setExpenses(updatedExpenses);
+        deleteEntry(id).then(() => {
+            var updatedExpenses = expenses.filter(expense => expense.id !== id);
+            setExpenses(updatedExpenses);
+        }); 
     }
 
     const addExpense = (expense: Expense) => {
-        createEntry(expense).then((newExpense: any) => {
+        createEntry(expense, selectedDate).then((newExpense: any) => {
             console.log("New expense added:", newExpense);
             var updatedExpenses = [...expenses];
             updatedExpenses.push({ id: newExpense.id, name: newExpense.title, amount: newExpense.amount });
@@ -70,7 +73,16 @@ export default function ExpenseListScreen() {
     const onDateChange = (newDate: Date) => {
         console.log("Date changed to:", newDate);
         setSelectedDate(newDate);
-        // Fetch and update expenses for the new date from DB if needed
+        getAllEntries(newDate, activeTab).then((entries) => {
+            console.log("Loaded entries from DB:", entries);
+            // Map entries to match the state structure
+            const formattedEntries = entries.map(entry => ({
+                id: entry.id?.toString() || '',
+                name: entry.title,
+                amount: entry.amount
+            }));
+            setExpenses(formattedEntries);
+        });
     }
 
     return (
