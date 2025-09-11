@@ -8,17 +8,13 @@ import {
     SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"
+import { formatDateAndDay } from "../../utils/TimeUtils";
 
-export default function ExpenseListPanel({activeTab, expenses, removeEntry, selectedDate, onDateChange}: {activeTab: string, expenses: { id: string; name: string; amount: number }[], removeEntry?: (id: string) => void, selectedDate : Date, onDateChange?: (newDate: Date) => void}) {
+export default function ExpenseListPanel({ activeTab, expenses, removeEntry, selectedDate, onDateChange }: { activeTab: string, expenses: { id: string; name: string; amount: number }[], removeEntry?: (id: string) => void, selectedDate: Date, onDateChange?: (newDate: Date) => void }) {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
     const total = expenses.reduce((sum, e) => sum + e.amount, 0);
-    const formattedDate = new Intl.DateTimeFormat("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }).format(selectedDate);
-    const dayName = selectedDate.toLocaleDateString("en-US", { weekday: "long" });
+    const {formattedDate, dayName} = formatDateAndDay(activeTab, selectedDate);
 
     const handleLongPress = (item: { id: string; name: string; amount: number }) => {
         setSelectedItemId(item.id); // Set the selected item ID
@@ -40,40 +36,62 @@ export default function ExpenseListPanel({activeTab, expenses, removeEntry, sele
         setSelectedItemId(null);
     };
 
-    const gotoPrevDay = () => {
-        console.log("Previous day clicked!");
+    const gotoPrevDayMonthYear = () => {
+        console.log("Previous day clicked:", activeTab);
         // your logic here
         const prevDate = new Date(selectedDate);
-        prevDate.setDate(selectedDate.getDate() - 1);
-        onDateChange && onDateChange(prevDate);
+        if (activeTab === "Daily") {
+            prevDate.setDate(selectedDate.getDate() - 1);
+            onDateChange && onDateChange(prevDate);
+        }
+
+        if (activeTab === "Monthly") {
+            prevDate.setMonth(selectedDate.getMonth() - 1);
+            onDateChange && onDateChange(prevDate);
+            return;
+
+        }
+        if (activeTab === "Yearly") {
+            prevDate.setFullYear(selectedDate.getFullYear() - 1);
+            onDateChange && onDateChange(prevDate);
+            return;
+        }
     }
 
-    const gotoNextDay = () => {
-        console.log("Next day clicked!");
-        // your logic here
-        const nextDate = new Date(selectedDate);
-        nextDate.setDate(selectedDate.getDate() + 1);
-        onDateChange && onDateChange(nextDate);
-    }
+    const changeDate = (direction: 1 | -1) => {
+        const newDate = new Date(selectedDate);
+        if (activeTab === "Daily") newDate.setDate(newDate.getDate() + direction);
+        if (activeTab === "Monthly") newDate.setMonth(newDate.getMonth() + direction);
+        if (activeTab === "Yearly") newDate.setFullYear(newDate.getFullYear() + direction);
+        onDateChange?.(newDate);
+    };
 
     return (
         <>
 
             {/* Date + Total */}
             <View style={styles.dateCard}>
-                <TouchableOpacity>
-                    <Ionicons name="chevron-back" size={22} color="white" onPress={gotoPrevDay}/>
+                <TouchableOpacity onPress={() => changeDate(-1)}>
+                    <Ionicons name="chevron-back" size={22} color="white" />
                 </TouchableOpacity>
 
                 <View>
-                    <Text style={styles.dateText}>{formattedDate}</Text>
-                    <Text style={styles.dayText}>{dayName}</Text>
+                    <Text
+                        style={[
+                            styles.dateText,
+                            activeTab === "Monthly" && { fontSize: 20 },
+                            activeTab === "Yearly" && { fontSize: 22 },
+                        ]}
+                    >
+                        {formattedDate}
+                    </Text>
+                    {dayName !== "" && <Text style={styles.dayText}>{dayName}</Text>}
                 </View>
 
                 <Text style={styles.totalText}>{total.toFixed(2)}</Text>
 
-                <TouchableOpacity>
-                    <Ionicons name="chevron-forward" size={22} color="white" onPress={gotoNextDay}/>
+                <TouchableOpacity onPress={() => changeDate(1)}>
+                    <Ionicons name="chevron-forward" size={22} color="white" />
                 </TouchableOpacity>
             </View>
 
@@ -111,6 +129,11 @@ export default function ExpenseListPanel({activeTab, expenses, removeEntry, sele
                     </TouchableOpacity>
                 )}
                 style={{ marginTop: 10 }}
+                ListEmptyComponent={() => (
+                    <Text style={{ textAlign: "center", marginTop: 20, color: "gray" }}>
+                        No expenses found
+                    </Text>
+                )}
             />
         </>
     );

@@ -29,3 +29,40 @@ export const getDateRange = (selectedDate: Date, selectedTab: string): { start: 
     end: end.getTime(),
   };
 };
+
+export const formatDateAndDay = (activeTab: string, selectedDate: Date): { formattedDate: string; dayName: string } => {
+  let formattedDate = "";
+  let dayName = "";
+
+  if (activeTab === "Daily") {
+    formattedDate = new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(selectedDate);
+
+    dayName = selectedDate.toLocaleDateString("en-US", { weekday: "long" });
+  }
+
+  if (activeTab === "Monthly") {
+    formattedDate = new Intl.DateTimeFormat("en-GB", {
+      month: "long",
+      year: "numeric",
+    }).format(selectedDate);
+
+    dayName = ""; // no weekday
+  }
+
+  if (activeTab === "Yearly") {
+    formattedDate = new Intl.DateTimeFormat("en-GB", {
+      year: "numeric",
+    }).format(selectedDate);
+
+    dayName = ""; // no weekday
+  }
+
+  return {
+    formattedDate,
+    dayName,
+  };
+}

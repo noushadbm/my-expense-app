@@ -113,7 +113,8 @@ export default function ExpenseListScreen() {
             selectedDate={selectedDate} onDateChange={onDateChange} />
 
             {/* Floating Button */}
-            <FloatingActionButton addExpense={addExpense} />
+            {activeTab === "Daily" && <FloatingActionButton addExpense={addExpense} />}
+            
         </SafeAreaView>
     );
 }
