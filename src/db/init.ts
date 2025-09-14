@@ -34,23 +34,84 @@ export const initCreateTables = async (db: SQLiteDatabase) => {
   );
 };
 
-export const getAllEntries = async (selectedDate : Date, selectedTab: string): Promise<Expense[]> => {
+export const getAllEntries = async (selectedDate: Date, selectedTab: string): Promise<Expense[]> => {
   // TODO: Open db only once and reuse the connection
   //const db = await openDatabaseAsync("dbTesting.db");
   const db = await getDb();
   const { start, end } = getDateRange(selectedDate, selectedTab);
-  const entries = await db.getAllAsync(
-    "SELECT * FROM expenses WHERE entryDate BETWEEN ? AND ? ORDER BY entryDate ASC",
-    [start, end]
-  );
-  return entries.map((entry: any) => ({
-    id: entry.id,
-    title: entry.title,
-    amount: entry.amount,
-    category: entry.category,
-    description: entry.description,
-    date: new Date(entry.entryDate),
-  })) as Expense[];
+
+
+  if (selectedTab === 'Daily') {
+    const entries = await db.getAllAsync(
+      "SELECT * FROM expenses WHERE entryDate BETWEEN ? AND ? ORDER BY entryDate ASC",
+      [start, end]
+    );
+    return entries.map((entry: any) => ({
+      id: entry.id,
+      title: entry.title,
+      amount: entry.amount,
+      category: entry.category,
+      description: entry.description,
+      date: new Date(entry.entryDate),
+    })) as Expense[];
+  } else if (selectedTab === 'Monthly') {
+    // Monthly view - aggregate expenses by day
+    const entries = await db.getAllAsync(
+      `SELECT 
+        DATE(entryDate / 1000, 'unixepoch', 'localtime') as day,
+        SUM(amount) as totalAmount,
+        COUNT(*) as expenseCount
+       FROM expenses 
+       WHERE entryDate BETWEEN ? AND ? 
+       GROUP BY DATE(entryDate / 1000, 'unixepoch', 'localtime')
+       ORDER BY day ASC`,
+      [start, end]
+    );
+
+    return entries.map((entry: any, index: number) => {
+      const dayDate = new Date(entry.day + 'T00:00:00');
+      const dayOfMonth = dayDate.getDate();
+      const dayName = dayDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+      return {
+        id: (index + 1).toString(), // Generate a unique ID for each day
+        title: `${dayOfMonth} ${dayName} (${entry.expenseCount})`,
+        amount: entry.totalAmount,
+        category: 'Daily Summary',
+        description: `Total expenses for ${entry.day}`,
+        date: dayDate,
+      };
+    }) as Expense[];
+  } else if (selectedTab === 'Yearly') {
+    // Yearly view - aggregate expenses by month
+    const entries = await db.getAllAsync(
+      `SELECT 
+        strftime('%Y-%m', entryDate / 1000, 'unixepoch', 'localtime') as month,
+        SUM(amount) as totalAmount,
+        COUNT(*) as expenseCount
+       FROM expenses 
+       WHERE entryDate BETWEEN ? AND ? 
+       GROUP BY strftime('%Y-%m', entryDate / 1000, 'unixepoch', 'localtime')
+       ORDER BY month ASC`,
+      [start, end]
+    );
+
+    return entries.map((entry: any, index: number) => {
+      const monthDate = new Date(entry.month + '-01T00:00:00');
+      const monthIndex = monthDate.getMonth() + 1; // getMonth() returns 0-11, so add 1
+      const monthName = monthDate.toLocaleDateString('en-US', { month: 'long' });
+
+      return {
+        id: (index + 1).toString(), // Generate a unique ID for each month
+        title: `${monthIndex} ${monthName}`,
+        amount: entry.totalAmount,
+        category: 'Monthly Summary',
+        description: `Total expenses for ${monthName} ${monthDate.getFullYear()}`,
+        date: monthDate,
+      };
+    }) as Expense[];
+  }
+  return [];
 };
 
 export const createEntry = async (body: Expense, selectedDate: Date) => {

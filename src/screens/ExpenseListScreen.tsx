@@ -51,6 +51,17 @@ export default function ExpenseListScreen() {
         console.log("Setting tab to:", tab);
         //setExpenses([]); // Clear the array
         setActiveTab(tab);
+        getAllEntries(selectedDate, tab).then((entries) => {
+            console.log("Loaded entries from DB for tab", tab, ":", entries);
+            // Map entries to match the state structure
+            const formattedEntries = entries.map(entry => ({
+                id: entry.id?.toString() || '',
+                name: entry.title,
+                amount: entry.amount
+            }));
+            setExpenses(formattedEntries);
+        })
+        
     }
 
     const removeEntry = (id: string) => {

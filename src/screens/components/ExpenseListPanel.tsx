@@ -105,7 +105,7 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
                         onLongPress={() => handleLongPress(item)}
                     >
                         <View style={styles.expenseItemContent}>
-                            {selectedItemId === item.id && (
+                            {selectedItemId === item.id && activeTab === "Daily" && (
                                 <View style={styles.iconCancelContainer}>
                                     <TouchableOpacity onPress={() => cancelOperation(item.id)}>
                                         <Ionicons name="close-circle-outline" size={20} color="gray" />
@@ -115,7 +115,7 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
                             <Text style={styles.expenseName}>{item.name}</Text>
                             <Text style={styles.expenseAmount}>{item.amount.toFixed(2)}</Text>
                             {/* Conditionally render icons for the selected item */}
-                            {selectedItemId === item.id && (
+                            {selectedItemId === item.id && activeTab === "Daily" && (
                                 <View style={styles.iconContainer}>
                                     <TouchableOpacity onPress={() => handleEdit(item.id)}>
                                         <Ionicons name="create-outline" size={20} color="gray" />
