@@ -18,6 +18,7 @@ import { createEntry, deleteEntry, getAllEntries } from "../db/init";
 export default function ExpenseListScreen() {
 
     const db = useSQLiteContext();
+    const navigation = useNavigation();
 
     useEffect(() => {
         console.log('Database is ready and available');
@@ -96,12 +97,18 @@ export default function ExpenseListScreen() {
         });
     }
 
+    const navigateToSettings = () => {
+        navigation.navigate('Settings' as never);
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Top Header */}
             <View style={styles.header}>
                 <Text style={styles.headerText}>Expense view.</Text>
-                <Ionicons name="settings-outline" size={22} color="white" />
+                <TouchableOpacity onPress={navigateToSettings}>
+                    <Ionicons name="settings-outline" size={22} color="white" />
+                </TouchableOpacity>
             </View>
 
             {/* Tabs */}

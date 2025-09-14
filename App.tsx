@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ExpenseListScreen from './src/screens/ExpenseListScreen';
 import AddExpenseScreen from './src/screens/AddExpenseScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 import { ExpensesProvider } from './src/context/ExpensesContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { SQLiteProvider } from "expo-sqlite";
@@ -27,6 +28,7 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="ExpenseList" component={ExpenseListScreen} />
             <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+            <Stack.Screen name="Settings" component={SettingsScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </ExpensesProvider>
