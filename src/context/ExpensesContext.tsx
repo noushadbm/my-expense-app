@@ -27,9 +27,9 @@ export const ExpensesContext = createContext<ExpensesContextType>({
     removeExpense: () => {},
   });
   
-  type ProviderProps = {
+type ProviderProps = {
     children: ReactNode;
-  };
+};
 
 export const ExpensesProvider = ({ children }: ProviderProps) => {
     const [expenses, setExpenses] = useState<Expense[]>([]);

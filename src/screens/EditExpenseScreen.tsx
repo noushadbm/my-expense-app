@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    TextInput,
     TouchableOpacity,
     SafeAreaView,
     TouchableWithoutFeedback,
+    TextInput,
     Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
-import { useNavigation } from "@react-navigation/native";
-import GlobalHandler from "../utils/GlobalHandler";
-import { Expense } from "../context/ExpensesContext";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Picker } from '@react-native-picker/picker';
+import { Expense } from '../context/ExpensesContext';
+import GlobalHandler from '../utils/GlobalHandler';
 
-export default function AddExpenseScreen() {
+export default function EditExpenseScreen() {
+    const route = useRoute();
+    const { id } = route.params as { id: string };
+    console.log("EditExpenseScreen - id:", id);
 
     const navigation = useNavigation();
     const [item, setItem] = useState("");
@@ -30,7 +33,7 @@ export default function AddExpenseScreen() {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="arrow-back" size={22} color="white" />
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Add expense</Text>
+                <Text style={styles.headerText}>Edit expense</Text>
                 <View style={{ width: 22 }} />
             </View>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -90,8 +93,7 @@ export default function AddExpenseScreen() {
                     </TouchableOpacity>
                 </View>
             </TouchableWithoutFeedback>
-
-        </SafeAreaView>
+        </SafeAreaView>    
     );
 }
 

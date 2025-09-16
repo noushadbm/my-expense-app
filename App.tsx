@@ -3,8 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ExpenseListScreen from './src/screens/ExpenseListScreen';
 import AddExpenseScreen from './src/screens/AddExpenseScreen';
+import EditExpenseScreen from './src/screens/EditExpenseScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
-import { ExpensesProvider } from './src/context/ExpensesContext';
+import LoginScreen from './src/screens/LoginScreen';
+import { AuthProvider } from './src/context/AuthProvider';
 import { NavigationContainer } from '@react-navigation/native';
 import { SQLiteProvider } from "expo-sqlite";
 import { initCreateTables } from './src/db/init';
@@ -23,15 +25,17 @@ export default function App() {
       onInit={initCreateTables}
       useSuspense
     >
-      <ExpensesProvider>
+      <AuthProvider>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="ExpenseList" component={ExpenseListScreen} />
             <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+            <Stack.Screen name="EditExpense" component={EditExpenseScreen} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-      </ExpensesProvider>
+      </AuthProvider>
     </SQLiteProvider>
 
   );

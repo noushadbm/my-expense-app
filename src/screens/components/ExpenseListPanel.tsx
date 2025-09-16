@@ -9,9 +9,18 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"
 import { formatDateAndDay } from "../../utils/TimeUtils";
+import { useNavigation } from "@react-navigation/native";
+import type { StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+    EditExpenseScreen: { id: string };
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList>;
 
 export default function ExpenseListPanel({ activeTab, expenses, removeEntry, selectedDate, onDateChange }: { activeTab: string, expenses: { id: string; name: string; amount: number }[], removeEntry?: (id: string) => void, selectedDate: Date, onDateChange?: (newDate: Date) => void }) {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+    const navigation = useNavigation<NavigationProp>();
 
     const total = expenses.reduce((sum, e) => sum + e.amount, 0);
     const {formattedDate, dayName} = formatDateAndDay(activeTab, selectedDate);
@@ -28,7 +37,7 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
 
     const handleEdit = (id: string) => {
         console.log("Edit item with ID:", id);
-        // Add your edit logic here
+        (navigation as any).navigate('EditExpense', {id: id} );
     };
 
     const cancelOperation = (id: string) => {

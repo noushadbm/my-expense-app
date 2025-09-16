@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     StyleSheet,
     Text,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { AuthContext } from "../context/AuthProvider";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -15,6 +16,9 @@ export default function SettingsScreen() {
     const goBack = () => {
         navigation.goBack();
     };
+
+    const { loggedInUser, logout } = useContext(AuthContext);
+    console.log("Logged in user in SettingsScreen:", loggedInUser);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -31,7 +35,7 @@ export default function SettingsScreen() {
             <View style={styles.content}>
                 <View style={styles.settingsSection}>
                     <Text style={styles.sectionTitle}>General</Text>
-                    
+
                     <TouchableOpacity style={styles.settingsItem}>
                         <View style={styles.settingsItemLeft}>
                             <Ionicons name="cash-outline" size={20} color="#666" />
@@ -39,37 +43,49 @@ export default function SettingsScreen() {
                                 <Text style={styles.settingsItemText}>Currency</Text>
                                 <Text style={styles.settingsItemBoldText}>AED</Text>
                             </View>
-                            
+
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.settingsSection}>
                     <Text style={styles.sectionTitle}>Account</Text>
-                    <TouchableOpacity style={styles.settingsItem}>
+                    {!loggedInUser && <TouchableOpacity style={styles.settingsItem} onPress={() => {
+                        navigation.navigate("Login" as never);
+                    }}>
                         <View style={styles.settingsItemLeft}>
                             <Ionicons name="person" size={20} color="#666" />
                             <Text style={styles.settingsItemText}>Login</Text>
                         </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.settingsItem}>
+                    </TouchableOpacity>}
+                    
+                    {loggedInUser && <>
+                    <TouchableOpacity style={styles.settingsItem} onPress={() => logout("id")}>
                         <View style={styles.settingsItemLeft}>
-                            <Ionicons name="download-outline" size={20} color="#666" />
-                            <Text style={styles.settingsItemText}>Export to cloud</Text>
+                            <Ionicons name="person" size={20} color="#666" />
+                            <Text style={styles.settingsItemText}>{loggedInUser.name}</Text>
+                            <Text style={styles.settingsItemText}>(Logout)</Text>
                         </View>
                     </TouchableOpacity>
+                        <TouchableOpacity style={styles.settingsItem}>
+                            <View style={styles.settingsItemLeft}>
+                                <Ionicons name="download-outline" size={20} color="#666" />
+                                <Text style={styles.settingsItemText}>Export to cloud</Text>
+                            </View>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.settingsItem}>
-                        <View style={styles.settingsItemLeft}>
-                            <Ionicons name="cloud-upload-outline" size={20} color="#666" />
-                            <Text style={styles.settingsItemText}>Restore from cloud</Text>
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.settingsItem}>
+                            <View style={styles.settingsItemLeft}>
+                                <Ionicons name="cloud-upload-outline" size={20} color="#666" />
+                                <Text style={styles.settingsItemText}>Restore from cloud</Text>
+                            </View>
+                        </TouchableOpacity></>}
+
                 </View>
 
                 <View style={styles.settingsSection}>
                     <Text style={styles.sectionTitle}>Data</Text>
-                    
+
                     <TouchableOpacity style={styles.settingsItem}>
                         <View style={styles.settingsItemLeft}>
                             <Ionicons name="newspaper" size={20} color="#666" />
@@ -87,7 +103,7 @@ export default function SettingsScreen() {
 
                 <View style={styles.settingsSection}>
                     <Text style={styles.sectionTitle}>About</Text>
-                    
+
                     <TouchableOpacity style={styles.settingsItem}>
                         <View style={styles.settingsItemLeft}>
                             <Ionicons name="information-circle-outline" size={20} color="#666" />
