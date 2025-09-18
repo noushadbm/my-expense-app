@@ -1,3 +1,5 @@
+import { Expense } from "../context/ExpensesContext";
+
 type GlobalHandlerType = {
     addExpense?: (Expense: {
       id?: string;
@@ -6,9 +8,10 @@ type GlobalHandlerType = {
       category: string;
       description?: string;
       date?: Date;
-    }) => void;
+    }) => void,
+    updateExpense?: (expense: Expense) => void;
   };
   
-  const GlobalHandler: GlobalHandlerType = {};
+const GlobalHandler: GlobalHandlerType = {};
   
-  export default GlobalHandler;
+export default GlobalHandler;

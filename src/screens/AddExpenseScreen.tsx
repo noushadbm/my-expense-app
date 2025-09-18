@@ -79,7 +79,7 @@ export default function AddExpenseScreen() {
                     />
 
                     <TouchableOpacity style={styles.addBtn} onPress={() => {
-                        const newExpense: Expense = { id: "", title: item, amount: Number(amount) || 0, category: "Other", description: "Added via GlobalHandler", date: new Date() };
+                        const newExpense: Expense = { id: "", title: item, amount: Number(amount) || 0, category: category, description: description, date: new Date() };
                         const addExpense = GlobalHandler.addExpense;
                         if (addExpense) {
                             addExpense(newExpense);

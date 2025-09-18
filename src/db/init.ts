@@ -143,6 +143,39 @@ export const createEntry = async (body: Expense, selectedDate: Date) => {
   }
 };
 
+export const updateEntry = async (body: Expense) => {
+  console.log("Updating entry in the database with ID:", body.id);
+  const db = await getDb();
+  const statement = await db.prepareAsync(
+    `UPDATE expenses 
+     SET title = $title, 
+         amount = $amount, 
+         category = $category, 
+         description = $description, 
+         entryDate = $entryDate 
+     WHERE id = $id`
+  );
+
+  try {
+    const response = await statement.executeAsync({
+      $id: body.id,
+      $title: body.title,
+      $amount: body.amount,
+      $category: body.category,
+      $description: body.description,
+      $entryDate: body.date ? body.date.getTime() : new Date().getTime(), // Store as epoch ms
+    });
+
+    console.log("Update response:", response);
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await statement.finalizeAsync();
+  }
+} 
+
 export const deleteEntry = async (id: string) => {
   console.log("Deleting entry with ID:", id);
   const db = await getDb();

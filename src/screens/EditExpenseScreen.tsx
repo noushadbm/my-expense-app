@@ -17,14 +17,16 @@ import GlobalHandler from '../utils/GlobalHandler';
 
 export default function EditExpenseScreen() {
     const route = useRoute();
-    const { id } = route.params as { id: string };
-    console.log("EditExpenseScreen - id:", id);
+    const { expense } = route.params as {expense: Expense};
+    console.log("EditExpenseScreen - id:", expense.id, ", title:", expense.title, ", amount:", expense.amount, ", category:", expense.category, ", description:", expense.description, ", date:", expense.date  );
 
     const navigation = useNavigation();
-    const [item, setItem] = useState("");
-    const [amount, setAmount] = useState("");
-    const [category, setCategory] = useState("");
-    const [description, setDescription] = useState("");
+    const amt = expense.amount ? expense.amount.toString() : '';
+    //const [id, setId] = useState(expense.id || "");
+    const [item, setItem] = useState(expense.title || "");
+    const [amount, setAmount] = useState(amt);
+    const [category, setCategory] = useState(expense.category || "");
+    const [description, setDescription] = useState(expense.description || "");
 
     return (
         <SafeAreaView style={styles.container}>
@@ -39,7 +41,7 @@ export default function EditExpenseScreen() {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <View style={{ margin: 20 }}>
                     {/* Date */}
-                    <Text style={styles.dateText}>{new Date().toLocaleDateString()}</Text>
+                    <Text style={styles.dateText}>{expense.date?.toLocaleDateString()}</Text>
 
                     {/* Form */}
                     <TextInput
@@ -82,14 +84,14 @@ export default function EditExpenseScreen() {
                     />
 
                     <TouchableOpacity style={styles.addBtn} onPress={() => {
-                        const newExpense: Expense = { id: "", title: item, amount: Number(amount) || 0, category: "Other", description: "Added via GlobalHandler", date: new Date() };
-                        const addExpense = GlobalHandler.addExpense;
-                        if (addExpense) {
-                            addExpense(newExpense);
+                        const newExpense: Expense = { id: expense.id, title: item, amount: Number(amount) || 0, category: "Other", description: "Added via GlobalHandler", date: new Date() };
+                        const updateExpense = GlobalHandler.updateExpense;
+                        if (updateExpense) {
+                            updateExpense(newExpense);
                         }
                         navigation.goBack()
                     }}>
-                        <Text style={{ color: "white", fontWeight: "bold" }}>Add entry</Text>
+                        <Text style={{ color: "white", fontWeight: "bold" }}>Update entry</Text>
                     </TouchableOpacity>
                 </View>
             </TouchableWithoutFeedback>

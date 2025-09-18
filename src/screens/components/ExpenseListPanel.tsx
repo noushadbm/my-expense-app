@@ -11,6 +11,8 @@ import { Ionicons } from "@expo/vector-icons"
 import { formatDateAndDay } from "../../utils/TimeUtils";
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
+import { Expense } from "../../context/ExpensesContext";
+import GlobalHandler from "../../utils/GlobalHandler";
 
 type RootStackParamList = {
     EditExpenseScreen: { id: string };
@@ -18,14 +20,14 @@ type RootStackParamList = {
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
 
-export default function ExpenseListPanel({ activeTab, expenses, removeEntry, selectedDate, onDateChange }: { activeTab: string, expenses: { id: string; name: string; amount: number }[], removeEntry?: (id: string) => void, selectedDate: Date, onDateChange?: (newDate: Date) => void }) {
+export default function ExpenseListPanel({ activeTab, expenses, removeEntry, selectedDate, onDateChange, updateExpense }: { activeTab: string, expenses: Expense[], removeEntry?: (id: string) => void, selectedDate: Date, onDateChange?: (newDate: Date) => void, updateExpense?: (expense: Expense) => void }) {
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     const navigation = useNavigation<NavigationProp>();
 
     const total = expenses.reduce((sum, e) => sum + e.amount, 0);
     const {formattedDate, dayName} = formatDateAndDay(activeTab, selectedDate);
 
-    const handleLongPress = (item: { id: string; name: string; amount: number }) => {
+    const handleLongPress = (item: Expense) => {
         setSelectedItemId(item.id); // Set the selected item ID
     };
 
@@ -36,8 +38,11 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
     };
 
     const handleEdit = (id: string) => {
-        console.log("Edit item with ID:", id);
-        (navigation as any).navigate('EditExpense', {id: id} );
+        const expense = expenses.find(e => e.id === id);
+        console.log("Edit item :", expense);
+        setSelectedItemId(null);
+        GlobalHandler.updateExpense = updateExpense;
+        (navigation as any).navigate('EditExpense', {expense} );
     };
 
     const cancelOperation = (id: string) => {
@@ -121,7 +126,7 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
                                     </TouchableOpacity>
                                 </View>
                             )}
-                            <Text style={styles.expenseName}>{item.name}</Text>
+                            <Text style={styles.expenseName}>{item.title}</Text>
                             <Text style={styles.expenseAmount}>{item.amount.toFixed(2)}</Text>
                             {/* Conditionally render icons for the selected item */}
                             {selectedItemId === item.id && activeTab === "Daily" && (
