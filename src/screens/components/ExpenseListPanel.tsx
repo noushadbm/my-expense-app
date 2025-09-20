@@ -25,7 +25,7 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
     const navigation = useNavigation<NavigationProp>();
 
     const total = expenses.reduce((sum, e) => sum + e.amount, 0);
-    const {formattedDate, dayName} = formatDateAndDay(activeTab, selectedDate);
+    const {monthAndYear, dayName, dayOfMonth} = formatDateAndDay(activeTab, selectedDate);
 
     const handleLongPress = (item: Expense) => {
         setSelectedItemId(item.id); // Set the selected item ID
@@ -97,7 +97,7 @@ export default function ExpenseListPanel({ activeTab, expenses, removeEntry, sel
                             activeTab === "Yearly" && { fontSize: 22 },
                         ]}
                     >
-                        {formattedDate}
+                        {dayOfMonth}{' '}{monthAndYear}
                     </Text>
                     {dayName !== "" && <Text style={styles.dayText}>{dayName}</Text>}
                 </View>

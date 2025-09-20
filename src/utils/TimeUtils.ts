@@ -30,22 +30,26 @@ export const getDateRange = (selectedDate: Date, selectedTab: string): { start: 
   };
 };
 
-export const formatDateAndDay = (activeTab: string, selectedDate: Date): { formattedDate: string; dayName: string } => {
-  let formattedDate = "";
+export const formatDateAndDay = (activeTab: string, selectedDate: Date): { monthAndYear: string; dayName: string, dayOfMonth: string } => {
+  let monthAndYear = "";
   let dayName = "";
+  let dayOfMonth = "";
 
   if (activeTab === "Daily") {
-    formattedDate = new Intl.DateTimeFormat("en-GB", {
-      day: "numeric",
+    monthAndYear = new Intl.DateTimeFormat("en-GB", {
       month: "long",
       year: "numeric",
+    }).format(selectedDate);
+
+    dayOfMonth = new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
     }).format(selectedDate);
 
     dayName = selectedDate.toLocaleDateString("en-US", { weekday: "long" });
   }
 
   if (activeTab === "Monthly") {
-    formattedDate = new Intl.DateTimeFormat("en-GB", {
+    monthAndYear = new Intl.DateTimeFormat("en-GB", {
       month: "long",
       year: "numeric",
     }).format(selectedDate);
@@ -54,7 +58,7 @@ export const formatDateAndDay = (activeTab: string, selectedDate: Date): { forma
   }
 
   if (activeTab === "Yearly") {
-    formattedDate = new Intl.DateTimeFormat("en-GB", {
+    monthAndYear = new Intl.DateTimeFormat("en-GB", {
       year: "numeric",
     }).format(selectedDate);
 
@@ -62,7 +66,8 @@ export const formatDateAndDay = (activeTab: string, selectedDate: Date): { forma
   }
 
   return {
-    formattedDate,
+    monthAndYear,
     dayName,
+    dayOfMonth,
   };
 }
