@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthProvider";
 import { Alert } from 'react-native';
 import { restoreFromExcel } from "../utils/FileUtils";
+import { restore } from "../db/init";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -101,11 +102,19 @@ export default function SettingsScreen() {
                             try {
                                 const { success, data } = await restoreFromExcel();
                                 if (success) {
-                                    Alert.alert(
-                                        "Success",
-                                        "Data has been restored from Excel successfully"
-                                    );
-
+                                    restore(data || []).then(() => {
+                                        console.log("Data restored to database successfully");
+                                        Alert.alert(
+                                            "Success",
+                                            "Data has been restored from Excel successfully"
+                                        );
+                                    }).catch((error) => {
+                                        console.error("Error restoring data to database:", error);
+                                        Alert.alert(
+                                            "Error",
+                                            "Failed to restore data from Excel"
+                                        );
+                                    });
                                 } else {
                                     Alert.alert(
                                         "Cancelled",

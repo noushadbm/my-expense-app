@@ -204,7 +204,7 @@ export const restore = async (expenses: Expense[]): Promise<void> => {
   try {
     // Start transaction
     await db.execAsync("BEGIN TRANSACTION");
-    
+    console.log("Transaction started");
     // Delete all existing records
     await db.execAsync("DELETE FROM expenses");
     console.log("Deleted all existing expense records");

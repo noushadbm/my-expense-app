@@ -67,8 +67,8 @@ export const restoreFromExcel = async () : Promise<RestoreResult> => {
                     const expenses : Expense[] = jsonData.map((row) => {
                         //entry.id = entry.id?.toString() || '';
                         const dateString : string = row['Entry Time'].toString();
-                        const epoc = toEpochMillis(dateString);
-                        return { id: null, title: row.Title, amount: parseFloat(row.Amount.toString()), category: row.Category, description: row.Description, date: epoc };
+                        const date = toEpochMillis(dateString);
+                        return { id: '', title: row.Title, amount: parseFloat(row.Amount.toString()), category: row.Category, description: row.Description, date: date };
                     });
                     //const expenses : Expense[] = jsonData.map(row => ({ id: null, title: row.Title, amount: parseFloat(row.Amount.toString()), category: row.Category, description: row.Description, date: new Date(row['Entry Time']) }));
                     console.log("All expenses restored successfully, total:", expenses.length);

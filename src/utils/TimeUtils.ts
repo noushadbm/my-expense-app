@@ -30,7 +30,7 @@ export const getDateRange = (selectedDate: Date, selectedTab: string): { start: 
   };
 };
 
-export const toEpochMillis = (dateStr: string): number => {
+export const toEpochMillis = (dateStr: string): Date => {
   // Split by "/"
   const [dayStr, monthStr, yearStr] = dateStr.split("/");
 
@@ -40,9 +40,7 @@ export const toEpochMillis = (dateStr: string): number => {
 
   // Create Date object
   const date = new Date(year, month, day);
-
-  // Return epoch millis
-  return date.getTime();
+  return date;
 }
 
 export const formatDateAndDay = (activeTab: string, selectedDate: Date): { monthAndYear: string; dayName: string, dayOfMonth: string } => {
