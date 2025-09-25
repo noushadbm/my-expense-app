@@ -9,6 +9,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthProvider";
+import { Alert } from 'react-native';
+import { restoreFromExcel } from "../utils/FileUtils";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -93,10 +95,36 @@ export default function SettingsScreen() {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.settingsItem}>
+                    <TouchableOpacity
+                        style={styles.settingsItem}
+                        onPress={async () => {
+                            try {
+                                const { success, data } = await restoreFromExcel();
+                                if (success) {
+                                    Alert.alert(
+                                        "Success",
+                                        "Data has been restored from Excel successfully"
+                                    );
+
+                                } else {
+                                    Alert.alert(
+                                        "Cancelled",
+                                        "Data restore was cancelled"
+                                    );
+                                }
+                                console.log("Restored data:", data);
+
+                            } catch (error) {
+                                Alert.alert(
+                                    "Error",
+                                    "Failed to restore data from Excel"
+                                );
+                            }
+                        }}
+                    >
                         <View style={styles.settingsItemLeft}>
                             <Ionicons name="arrow-redo-circle-outline" size={20} color="#666" />
-                            <Text style={styles.settingsItemText}>Backup from Excel</Text>
+                            <Text style={styles.settingsItemText}>Restore from Excel</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

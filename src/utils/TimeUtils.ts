@@ -30,6 +30,21 @@ export const getDateRange = (selectedDate: Date, selectedTab: string): { start: 
   };
 };
 
+export const toEpochMillis = (dateStr: string): number => {
+  // Split by "/"
+  const [dayStr, monthStr, yearStr] = dateStr.split("/");
+
+  const day = parseInt(dayStr, 10);
+  const month = parseInt(monthStr, 10) - 1; // JS months are 0-based
+  const year = parseInt(yearStr, 10);
+
+  // Create Date object
+  const date = new Date(year, month, day);
+
+  // Return epoch millis
+  return date.getTime();
+}
+
 export const formatDateAndDay = (activeTab: string, selectedDate: Date): { monthAndYear: string; dayName: string, dayOfMonth: string } => {
   let monthAndYear = "";
   let dayName = "";

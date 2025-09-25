@@ -196,3 +196,50 @@ export const deleteEntry = async (id: string) => {
     await statement.finalizeAsync();
   }
 }
+
+export const restore = async (expenses: Expense[]): Promise<void> => {
+  console.log("Restoring expenses database with", expenses.length, "records");
+  const db = await getDb();
+  
+  try {
+    // Start transaction
+    await db.execAsync("BEGIN TRANSACTION");
+    
+    // Delete all existing records
+    await db.execAsync("DELETE FROM expenses");
+    console.log("Deleted all existing expense records");
+    
+    // Prepare insert statement
+    const insertStatement = await db.prepareAsync(
+      "INSERT INTO expenses (title, amount, category, description, entryDate) VALUES ($title, $amount, $category, $description, $entryDate)"
+    );
+    
+    try {
+      // Insert all new records
+      for (const expense of expenses) {
+        await insertStatement.executeAsync({
+          $title: expense.title,
+          $amount: expense.amount,
+          $category: expense.category,
+          $description: expense.description,
+          $entryDate: expense.date ? expense.date.getTime() : new Date().getTime(),
+        });
+      }
+      
+      console.log("Inserted", expenses.length, "expense records");
+      
+      // Commit transaction
+      await db.execAsync("COMMIT");
+      console.log("Database restore completed successfully");
+      
+    } finally {
+      await insertStatement.finalizeAsync();
+    }
+    
+  } catch (error) {
+    // Rollback transaction on error
+    await db.execAsync("ROLLBACK");
+    console.error("Error during database restore, transaction rolled back:", error);
+    throw error;
+  }
+};

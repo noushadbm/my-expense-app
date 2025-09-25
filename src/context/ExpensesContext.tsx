@@ -6,7 +6,7 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
 export type Expense = {
-  id: string;
+  id: string | null;
   title: string;
   amount: number;
   category: string;
