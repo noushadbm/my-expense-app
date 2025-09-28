@@ -35,17 +35,16 @@ export const initCreateTables = async (db: SQLiteDatabase) => {
 };
 
 export const getAllExpenses = async (): Promise<Expense[]> => {
-    // Your database logic to fetch all expenses
-    const test: Expense[] = [
-      {
-        id: "1",
-        title: "Test Expense 1",
-        amount: 50.0,
-        category: "Food",
-        description: "Lunch at restaurant",
-        date: new Date(),
-      }]
-    return test;
+    const db = await getDb();
+    const entries = await db.getAllAsync("SELECT * FROM expenses ORDER BY id ASC");
+    return entries.map((entry: any) => ({
+      id: entry.id,
+      title: entry.title,
+      amount: entry.amount,
+      category: entry.category,
+      description: entry.description,
+      date: new Date(entry.entryDate),
+    })) as Expense[];
 };
 
 export const getAllEntries = async (selectedDate: Date, selectedTab: string): Promise<Expense[]> => {

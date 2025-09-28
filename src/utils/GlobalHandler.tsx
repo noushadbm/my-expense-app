@@ -9,7 +9,8 @@ type GlobalHandlerType = {
       description?: string;
       date?: Date;
     }) => void,
-    updateExpense?: (expense: Expense) => void;
+    updateExpense?: (expense: Expense) => void,
+    reloadExpenses?: () => void,
   };
   
 const GlobalHandler: GlobalHandlerType = {};

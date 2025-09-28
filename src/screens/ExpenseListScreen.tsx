@@ -14,6 +14,7 @@ import ExpenseListPanel from "./components/ExpenseListPanel";
 import FloatingActionButton from "./components/FloatingActionButton";
 import { useSQLiteContext } from 'expo-sqlite';
 import { createEntry, deleteEntry, getAllEntries, updateEntry } from "../db/init";
+import GlobalHandler from "../utils/GlobalHandler";
 
 export default function ExpenseListScreen() {
 
@@ -27,6 +28,10 @@ export default function ExpenseListScreen() {
         //   .then(result => console.log('Tables verified:', result));
         // Load initial expenses from DB
         console.log("activeTab:", activeTab, ", selectedDate:", selectedDate);
+        reloadExpenses();
+    }, [db]);
+
+    const reloadExpenses = () => {
         getAllEntries(selectedDate, activeTab).then((entries) => {
             console.log("Loaded entries from DB:", entries);
             // Map entries to match the state structure
@@ -36,7 +41,7 @@ export default function ExpenseListScreen() {
             });
             setExpenses(formattedEntries);
         });
-    }, [db]);
+    }
 
     //const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState("Daily");
@@ -116,6 +121,7 @@ export default function ExpenseListScreen() {
     }
 
     const navigateToSettings = () => {
+        GlobalHandler.reloadExpenses = reloadExpenses;
         navigation.navigate('Settings' as never);
     }
 

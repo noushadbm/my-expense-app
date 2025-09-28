@@ -12,6 +12,7 @@ import { AuthContext } from "../context/AuthProvider";
 import { Alert } from 'react-native';
 import { restoreFromExcel, exportToExcel } from "../utils/FileUtils";
 import { restore, getAllExpenses } from "../db/init";
+import GlobalHandler from "../utils/GlobalHandler";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -26,6 +27,7 @@ export default function SettingsScreen() {
     const handleExportToExcel = async () => {
         try {
             // Get all expenses from database
+            console.log("Getting all expenses for export");
             const expenses = await getAllExpenses();
             
             if (expenses.length === 0) {
@@ -142,6 +144,8 @@ export default function SettingsScreen() {
                                 if (success) {
                                     restore(data || []).then(() => {
                                         console.log("Data restored to database successfully");
+                                        const reloadExpenses = GlobalHandler.reloadExpenses;
+                                        reloadExpenses && reloadExpenses();
                                         Alert.alert(
                                             "Success",
                                             "Data has been restored from Excel successfully"
@@ -159,7 +163,7 @@ export default function SettingsScreen() {
                                         "Data restore was cancelled"
                                     );
                                 }
-                                console.log("Restored data:", data);
+                                //console.log("Restored data:", data);
 
                             } catch (error) {
                                 Alert.alert(
