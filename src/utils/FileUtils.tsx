@@ -1,9 +1,9 @@
 import * as XLSX from 'xlsx';
 import * as DocumentPicker from 'expo-document-picker';
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 import { Expense } from '../context/ExpensesContext';
-import {toEpochMillis} from './TimeUtils';
-//import { Expense } from '../types/expense';
-//import { deleteAllExpenses, addExpense } from '../services/expenseService';
+import {toEpochMillis, formatDateToDDMMYYYY} from './TimeUtils';
 
 interface ExcelRowData {
     Title: string;
@@ -16,6 +16,11 @@ interface ExcelRowData {
 interface RestoreResult {
     success: boolean;
     data: Expense[] | null;
+}
+
+interface ExportResult {
+    success: boolean;
+    message: string;
 }
 
 export const restoreFromExcel = async () : Promise<RestoreResult> => {
@@ -45,24 +50,6 @@ export const restoreFromExcel = async () : Promise<RestoreResult> => {
                     console.log("Sheet Name:", sheetName);
                     const worksheet = workbook.Sheets[sheetName];
                     const jsonData = XLSX.utils.sheet_to_json<ExcelRowData>(worksheet);
-
-                    // Delete existing expenses
-                    // await deleteAllExpenses();
-
-                    // // Insert new expenses
-                    // for (const row of jsonData) {
-                    //     console.log("Processing row:", row);
-                    //     const expense: Expense = {
-                    //         id: null,
-                    //         title: row.Title,
-                    //         amount: parseFloat(row.Amount.toString()),
-                    //         category: row['Category'],
-                    //         description: row['Description'],
-                    //         date: new Date(row['Entry Time'])
-                    //     };
-                    //     //await addExpense(expense);
-                    //     console.log("Restored Expense:", expense);
-                    // }
                     
                     const expenses : Expense[] = jsonData.map((row) => {
                         //entry.id = entry.id?.toString() || '';
@@ -82,5 +69,73 @@ export const restoreFromExcel = async () : Promise<RestoreResult> => {
     } catch (error) {
         console.error('Error restoring from Excel:', error);
         throw error;
+    }
+};
+
+export const exportToExcel = async (expenses: Expense[]): Promise<ExportResult> => {
+    console.log("Starting export to Excel");
+    try {
+        // Create a new workbook
+        const workbook = XLSX.utils.book_new();
+        
+        // Create an empty first sheet
+        const emptySheet = XLSX.utils.aoa_to_sheet([]);
+        XLSX.utils.book_append_sheet(workbook, emptySheet, 'Info');
+        
+        // Convert expenses data to the format expected by Excel
+        const excelData: ExcelRowData[] = expenses.map(expense => ({
+            Title: expense.title,
+            Amount: expense.amount,
+            Category: expense.category,
+            Description: expense.description,
+            'Entry Time': formatDateToDDMMYYYY(new Date(expense.date)) // Format as YYYY-MM-DD
+        }));
+        
+        // Create worksheet from expenses data
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        
+        // Add the expenses sheet as the second sheet
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Expenses');
+        
+        // Generate Excel file buffer
+        const excelBuffer = XLSX.write(workbook, { 
+            type: 'array', 
+            bookType: 'xlsx' 
+        });
+        
+        // Create file path
+        const fileName = `expenses_${new Date().toISOString().split('T')[0]}.xlsx`;
+        const fileUri = FileSystem.documentDirectory + fileName;
+        
+        // Convert buffer to base64 and save file
+        const base64 = btoa(
+            new Uint8Array(excelBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+        
+        await FileSystem.writeAsStringAsync(fileUri, base64, {
+            encoding: FileSystem.EncodingType.Base64
+        });
+        
+        // Share the file (this will open the iOS share sheet)
+        if (await Sharing.isAvailableAsync()) {
+            await Sharing.shareAsync(fileUri, {
+                mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                dialogTitle: 'Export Expenses',
+                UTI: 'org.openxmlformats.spreadsheetml.sheet'
+            });
+        }
+        
+        console.log("Excel file exported successfully:", fileName);
+        return { 
+            success: true, 
+            message: `Exported ${expenses.length} expenses successfully` 
+        };
+        
+    } catch (error) {
+        console.error('Error exporting to Excel:', error);
+        return { 
+            success: false, 
+            message: `Export failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
+        };
     }
 };

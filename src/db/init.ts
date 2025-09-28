@@ -34,6 +34,20 @@ export const initCreateTables = async (db: SQLiteDatabase) => {
   );
 };
 
+export const getAllExpenses = async (): Promise<Expense[]> => {
+    // Your database logic to fetch all expenses
+    const test: Expense[] = [
+      {
+        id: "1",
+        title: "Test Expense 1",
+        amount: 50.0,
+        category: "Food",
+        description: "Lunch at restaurant",
+        date: new Date(),
+      }]
+    return test;
+};
+
 export const getAllEntries = async (selectedDate: Date, selectedTab: string): Promise<Expense[]> => {
   // TODO: Open db only once and reuse the connection
   //const db = await openDatabaseAsync("dbTesting.db");

@@ -10,8 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthProvider";
 import { Alert } from 'react-native';
-import { restoreFromExcel } from "../utils/FileUtils";
-import { restore } from "../db/init";
+import { restoreFromExcel, exportToExcel } from "../utils/FileUtils";
+import { restore, getAllExpenses } from "../db/init";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -22,6 +22,41 @@ export default function SettingsScreen() {
 
     const { loggedInUser, logout } = useContext(AuthContext);
     console.log("Logged in user in SettingsScreen:", loggedInUser);
+
+    const handleExportToExcel = async () => {
+        try {
+            // Get all expenses from database
+            const expenses = await getAllExpenses();
+            
+            if (expenses.length === 0) {
+                Alert.alert(
+                    "No Data",
+                    "There are no expenses to export."
+                );
+                return;
+            }
+
+            const result = await exportToExcel(expenses);
+            
+            if (result.success) {
+                Alert.alert(
+                    "Export Successful",
+                    result.message
+                );
+            } else {
+                Alert.alert(
+                    "Export Failed",
+                    result.message
+                );
+            }
+        } catch (error) {
+            console.error("Error exporting to Excel:", error);
+            Alert.alert(
+                "Export Failed",
+                "An unexpected error occurred while exporting data."
+            );
+        }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -89,7 +124,10 @@ export default function SettingsScreen() {
                 <View style={styles.settingsSection}>
                     <Text style={styles.sectionTitle}>Data</Text>
 
-                    <TouchableOpacity style={styles.settingsItem}>
+                    <TouchableOpacity 
+                        style={styles.settingsItem}
+                        onPress={handleExportToExcel}
+                    >
                         <View style={styles.settingsItemLeft}>
                             <Ionicons name="newspaper" size={20} color="#666" />
                             <Text style={styles.settingsItemText}>Export to Excel</Text>

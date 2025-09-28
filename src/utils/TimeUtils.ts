@@ -43,6 +43,15 @@ export const toEpochMillis = (dateStr: string): Date => {
   return date;
 }
 
+export const formatDateToDDMMYYYY = (date: Date): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  };
+  return date.toLocaleDateString('en-GB', options);
+}
+
 export const formatDateAndDay = (activeTab: string, selectedDate: Date): { monthAndYear: string; dayName: string, dayOfMonth: string } => {
   let monthAndYear = "";
   let dayName = "";
